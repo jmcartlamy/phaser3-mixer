@@ -1,2 +1,2 @@
-export const GAME_SCREEN_WIDTH = 640;
-export const GAME_SCREEN_HEIGHT = 320;
+export const GAME_SCREEN_WIDTH = 800;
+export const GAME_SCREEN_HEIGHT = 600;
