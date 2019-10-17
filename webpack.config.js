@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src') + '/app.ts',
+  entry: ['babel-polyfill', path.resolve(__dirname, 'src') + '/app.ts'],
   mode: 'development',
   devtool: 'inline-source-map',
   module: {
