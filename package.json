@@ -30,7 +30,9 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "core-js": "2.6.9",
     "dotenv-webpack": "^1.7.0",
+    "jso": "https://github.com/jmcartlamy/jso.git",
     "phaser": "^3.16.2"
   }
 }

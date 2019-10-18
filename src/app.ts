@@ -1,5 +1,8 @@
 import 'phaser';
+import { JSO } from 'jso';
+
 import GameScene from './scenes/GameScene';
+import mixer from './api/mixer';
 
 import { GAME_SCREEN_HEIGHT, GAME_SCREEN_WIDTH } from './constants';
 
@@ -8,7 +11,6 @@ const config = {
   width: GAME_SCREEN_WIDTH,
   height: GAME_SCREEN_HEIGHT,
   backgroundColor: '#000000',
-  parent: 'phaser-example',
   physics: {
     default: 'matter',
     matter: {
@@ -19,12 +21,14 @@ const config = {
   scene: [GameScene]
 };
 
-export class Game extends Phaser.Game {
+class Game extends Phaser.Game {
   constructor(config: Phaser.Types.Core.GameConfig) {
     super(config);
   }
 }
 
-window.addEventListener('load', () => {
-  var game = new Game(config);
+window.addEventListener('load', async () => {
+  await mixer.getToken();
+
+  let game = new Game(config);
 });

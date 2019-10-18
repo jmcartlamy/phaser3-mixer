@@ -2,6 +2,9 @@ declare module '*.png' {
   const content: string;
   export default content;
 }
+
+declare module 'jso';
+
 declare var process: {
   env: {
     API_URI_AUTHORIZATION: string;
