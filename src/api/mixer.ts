@@ -13,11 +13,14 @@ class Mixer {
       authorization: process.env.API_URI_AUTHORIZATION,
       token: process.env.API_URI_TOKEN,
       client_id: process.env.API_CLIENT_ID,
+      scopes: {
+        request: ['interactive:robot:self']
+      },
       client_secret: process.env.API_CLIENT_SECRET
     });
   }
 
-  public async getToken() {
+  public async getToken(): Promise<string> {
     let token = null;
     const callback = await this.OAuthClient.callback();
 
@@ -33,7 +36,7 @@ class Mixer {
     return this.accessToken;
   }
 
-  public getCurrentToken() {
+  public getCurrentToken(): string {
     return this.accessToken;
   }
 }

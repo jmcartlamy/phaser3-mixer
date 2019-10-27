@@ -674,6 +674,13 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@mixer/interactive-node@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@mixer/interactive-node/-/interactive-node-3.0.1.tgz#6bc9ab501ce0cad17a198e389aceb41897c1b1da"
+  integrity sha512-bkofYsrA8GSLoggt6fnK6CJIF6VcmsXlQIPdu5U0E+ydTHEw4MTmWrNOvhNhjD+OliPpvbfmKp3myS9T+s4jHg==
+  dependencies:
+    deepmerge "^1.5.2"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -1744,6 +1751,11 @@ deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
   integrity sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
+
+deepmerge@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-1.5.2.tgz#10499d868844cdad4fee0842df8c7f6f0c95a753"
+  integrity sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==
 
 default-gateway@^4.2.0:
   version "4.2.0"

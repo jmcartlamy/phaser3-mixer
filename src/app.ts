@@ -1,8 +1,8 @@
 import 'phaser';
-import { JSO } from 'jso';
 
 import GameScene from './scenes/GameScene';
 import mixer from './api/mixer';
+import interactive from './api/interactive';
 
 import { GAME_SCREEN_HEIGHT, GAME_SCREEN_WIDTH } from './constants';
 
@@ -28,7 +28,12 @@ class Game extends Phaser.Game {
 }
 
 window.addEventListener('load', async () => {
-  await mixer.getToken();
+  // Use Oauth2 Code Authorization to get a mixer token
+  const token = await mixer.getToken();
 
+  // Create an interactive game session (mixplay)
+  interactive.setup(token);
+
+  // Launch the game
   let game = new Game(config);
 });

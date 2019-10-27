@@ -11,5 +11,6 @@ declare var process: {
     API_URI_TOKEN: string;
     API_CLIENT_ID: string;
     API_CLIENT_SECRET: string;
+    API_VERSION_ID: string;
   };
 };

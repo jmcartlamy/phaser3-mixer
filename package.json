@@ -30,6 +30,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "@mixer/interactive-node": "^3.0.1",
     "core-js": "2.6.9",
     "dotenv-webpack": "^1.7.0",
     "jso": "https://github.com/jmcartlamy/jso.git",
