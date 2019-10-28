@@ -1,8 +1,8 @@
-# Phaser 3 Mixer Game
+# Phaser3 Mixplay Game
 
-A Phaser 3 game with ES6 support & Typescript support
-that includes hot-reloading for development and production-ready builds.
+A browser game connected on Mixer Api and interactive service, using [Phaser3](https://www.phaser.io/phaser3) and [Typescript](https://www.typescriptlang.org/).
 
+This repository is a Phaser3 game with ES6 & Typescript supports that includes hot-reloading for development and production-ready builds. 
 
 ## Installation
 
