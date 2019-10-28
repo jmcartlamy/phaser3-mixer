@@ -5,8 +5,10 @@ import tileMaps from '../assets/tilemaps/kenny_platformer_64x64.png';
 import Controls from '../objects/Controls';
 import TileMap from '../objects/TileMap';
 
-import addBalls from '../helpers/addBalls';
-import handleBallsCollision from '../helpers/handleBallsCollision';
+import addBallsToActivePointer from '../helpers/phaser/addBallsToActivePointer';
+import handleBallsCollision from '../helpers/phaser/handleBallsCollision';
+import mixer from '../api/mixer';
+import interactive from '../api/interactive';
 
 export default class GameScene extends Phaser.Scene {
   private controls: Phaser.Cameras.Controls.FixedKeyControl;
@@ -15,6 +17,11 @@ export default class GameScene extends Phaser.Scene {
     super({
       key: 'GameScene'
     });
+
+    // Get token from mixer
+    const token = mixer.getCurrentToken();
+    // Create an interactive game session (mixplay)
+    interactive.setup(this, token);
   }
 
   public preload() {
@@ -29,7 +36,7 @@ export default class GameScene extends Phaser.Scene {
     new TileMap(this, 'map');
 
     // Drop matter balls on pointer down.
-    this.input.on('pointerdown', addBalls(this), this);
+    this.input.on('pointerdown', addBallsToActivePointer(this), this);
 
     // Loop over all the collision pairs that start colliding
     // on each step of the Matter engine.
