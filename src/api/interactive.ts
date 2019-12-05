@@ -8,7 +8,7 @@ class Interactive {
 
   constructor() {
     this.session = new GameClient();
-    this.debugMode = true;
+    this.debugMode = false;
   }
 
   public setup(scene: Phaser.Scene, token: string): void {

@@ -1,9 +1,11 @@
 export default class TileMap {
-  constructor(scene: Phaser.Scene, key: string) {
-    const map = scene.make.tilemap({ key });
-    const tileset = map.addTilesetImage('tileMaps');
+  public map: Phaser.Tilemaps.Tilemap;
 
-    const layer = map.createDynamicLayer(0, tileset, 0, 0);
+  constructor(scene: Phaser.Scene, key: string) {
+    this.map = scene.make.tilemap({ key });
+    const tileset = this.map.addTilesetImage('tileMaps');
+
+    const layer = this.map.createDynamicLayer(0, tileset, 0, 0);
 
     // Set colliding tiles before converting the layer to Matter bodies!
     layer.setCollisionByProperty({ collides: true });
@@ -13,8 +15,8 @@ export default class TileMap {
     // body will be accessible via tile.physics.matterBody.
     scene.matter.world.convertTilemapLayer(layer);
 
-    scene.matter.world.setBounds(map.widthInPixels, map.heightInPixels);
-    scene.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    scene.matter.world.setBounds(this.map.widthInPixels, this.map.heightInPixels);
+    scene.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     scene.cameras.main.setScroll(95, 100);
 
     // Change label makes easier to check Matter collisions.

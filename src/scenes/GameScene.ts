@@ -1,25 +1,30 @@
 import balls from '../assets/sprites/balls.png';
 import fullscreen from '../assets/sprites/fullscreen.png';
+import player from '../assets/sprites/player.png';
 import map from '../assets/tilemaps/tileset-collision-shapes.json';
 import tileMaps from '../assets/tilemaps/kenny_platformer_64x64.png';
 
-import Controls from '../objects/Controls';
 import TileMap from '../objects/TileMap';
+import Player from '../objects/Player';
 
-import addBallsToActivePointer from '../helpers/phaser/addBallsToActivePointer';
-import handleBallsCollision from '../helpers/phaser/handleBallsCollision';
 import mixer from '../api/mixer';
 import interactive from '../api/interactive';
 
+import addBallsToActivePointer from './helpers/addBallsToActivePointer';
+import handleBallsCollision from './helpers/handleBallsCollision';
+import toggleFullscreen from './helpers/toggleFullscreen';
+import { GAME_SCREEN_WIDTH } from '../constants';
+import handlePlayerCollision from './helpers/handlePlayerCollision';
+
 export default class GameScene extends Phaser.Scene {
-  private controls: Phaser.Cameras.Controls.FixedKeyControl;
+  public player: Player;
 
   constructor() {
     super({
       key: 'GameScene'
     });
 
-    // Get token from mixer
+    // Get token from current mixer instance
     const token = mixer.getCurrentToken();
     // Create an interactive game session (mixplay)
     interactive.setup(this, token);
@@ -27,6 +32,14 @@ export default class GameScene extends Phaser.Scene {
 
   public preload() {
     this.load.spritesheet('balls', balls, { frameWidth: 17, frameHeight: 17 });
+    this.load.spritesheet('player', player, {
+      frameWidth: 32,
+      frameHeight: 42
+    });
+    this.load.spritesheet('fullscreen', fullscreen, {
+      frameWidth: 64,
+      frameHeight: 64
+    });
     // @ts-ignore
     this.load.tilemapTiledJSON('map', map);
     this.load.image('tileMaps', tileMaps);
@@ -34,7 +47,10 @@ export default class GameScene extends Phaser.Scene {
 
   public create() {
     // Create map following json loaded
-    new TileMap(this, 'map');
+    const tilemap = new TileMap(this, 'map');
+
+    // Create player and init his position
+    this.player = new Player(this, tilemap.map);
 
     // Drop matter balls on pointer down.
     this.input.on('pointerdown', addBallsToActivePointer(this), this);
@@ -43,16 +59,23 @@ export default class GameScene extends Phaser.Scene {
     // on each step of the Matter engine.
     this.matter.world.on('collisionstart', handleBallsCollision(this), this);
 
-    // Create cursor keys for camera
-    const cursors = this.input.keyboard.createCursorKeys();
-    this.controls = new Controls({
-      camera: this.cameras.main,
-      left: cursors.left,
-      right: cursors.right,
-      up: cursors.up,
-      down: cursors.down,
-      speed: 0.5
+    // Before matter's update, reset the player's count of what surfaces it is touching.
+    this.matter.world.on('beforeupdate', () => {
+      this.player.collection.numTouching.left = 0;
+      this.player.collection.numTouching.right = 0;
+      this.player.collection.numTouching.bottom = 0;
     });
+
+    // Loop over the active colliding pairs and count the surfaces the player is touching.
+    this.matter.world.on('collisionactive', handlePlayerCollision(this));
+
+    // Update over, so now we can determine if any direction is blocked
+    this.matter.world.on('afterupdate', () => {
+      this.player.collection.blocked.right = this.player.collection.numTouching.right > 0;
+      this.player.collection.blocked.left = this.player.collection.numTouching.left > 0;
+      this.player.collection.blocked.bottom = this.player.collection.numTouching.bottom > 0;
+    });
+
     // Create full screen button
     const button = this.add
       .image(GAME_SCREEN_WIDTH - 16, 16, 'fullscreen', 0)
@@ -62,6 +85,6 @@ export default class GameScene extends Phaser.Scene {
   }
 
   public update(time: number, delta: number) {
-    this.controls.update(delta);
+    this.player.update(time, delta);
   }
 }
