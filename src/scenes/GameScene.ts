@@ -1,4 +1,5 @@
 import balls from '../assets/sprites/balls.png';
+import fullscreen from '../assets/sprites/fullscreen.png';
 import map from '../assets/tilemaps/tileset-collision-shapes.json';
 import tileMaps from '../assets/tilemaps/kenny_platformer_64x64.png';
 
@@ -52,6 +53,12 @@ export default class GameScene extends Phaser.Scene {
       down: cursors.down,
       speed: 0.5
     });
+    // Create full screen button
+    const button = this.add
+      .image(GAME_SCREEN_WIDTH - 16, 16, 'fullscreen', 0)
+      .setOrigin(1, 0)
+      .setInteractive();
+    button.on('pointerup', toggleFullscreen(this, button), this);
   }
 
   public update(time: number, delta: number) {
