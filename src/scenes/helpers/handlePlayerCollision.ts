@@ -1,8 +1,8 @@
 import GameScene from '../GameScene';
+import changeScene from './changeScene';
 
 export default function(scene: GameScene) {
   return function(event: Phaser.Physics.Matter.Events.CollisionActiveEvent) {
-    const playerBody = scene.player.collection.body;
     const left = scene.player.collection.sensors.left;
     const right = scene.player.collection.sensors.right;
     const bottom = scene.player.collection.sensors.bottom;
@@ -11,9 +11,17 @@ export default function(scene: GameScene) {
       const bodyA = event.pairs[i].bodyA;
       const bodyB = event.pairs[i].bodyB;
 
-      if (bodyA === playerBody || bodyB === playerBody) {
-        // nothing
-      } else if (bodyA === bottom || bodyB === bottom) {
+      if (bodyA.parent.label === 'dangerousTile') {
+        scene.player.destroyCompoundBody();
+        return;
+      }
+
+      if (bodyA.parent.label === 'exitTile' && bodyB.label === 'player') {
+        scene.cameras.main.zoomTo(2);
+        changeScene(scene, 'GameScene', 1000);
+      }
+
+      if (bodyA === bottom || bodyB === bottom) {
         // Standing on any surface counts (e.g. jumping off of a non-static crate).
         scene.player.collection.numTouching.bottom += 1;
       } else if ((bodyA === left && bodyB.isStatic) || (bodyB === left && bodyA.isStatic)) {

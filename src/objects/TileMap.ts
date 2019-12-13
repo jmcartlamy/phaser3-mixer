@@ -20,10 +20,11 @@ export default class TileMap {
     scene.cameras.main.setScroll(95, 100);
 
     // Change label makes easier to check Matter collisions.
-    layer.forEachTile(function(tile) {
+    layer.forEachTile(function(tile: any) {
       if (tile.properties.type === 'lava' || tile.properties.type === 'spike') {
-        // @ts-ignore
         tile.physics.matterBody.body.label = 'dangerousTile';
+      } else if (tile.properties.type === 'exit') {
+        tile.physics.matterBody.body.label = 'exitTile';
       }
     });
   }

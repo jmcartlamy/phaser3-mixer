@@ -2,9 +2,10 @@ import { IPlayer } from '../types';
 import SmoothedHorizontalControl from './helpers/SmoothedHorizontalControl';
 import smoothMoveCameraTowards from './helpers/smoothMoveCameraTowards';
 import { PLAYER_COLLECTION } from '../constants';
+import changeScene from '../scenes/helpers/changeScene';
 
 export default class Player {
-  private currentScene: Phaser.Scene;
+  private readonly currentScene: Phaser.Scene;
   private currentMap: Phaser.Tilemaps.Tilemap;
 
   public collection: IPlayer;
@@ -40,11 +41,6 @@ export default class Player {
       return;
     }
 
-    if (this.collection.matterSprite && this.collection.matterSprite.y > 500) {
-      this.destroyCompoundBody();
-      return;
-    }
-
     // Horizontal movement
     this.processHorizontalMovement(delta);
 
@@ -55,13 +51,26 @@ export default class Player {
     smoothMoveCameraTowards(this.collection.matterSprite, this.camera, 0.9);
   }
 
+  public destroyCompoundBody() {
+    // Player death
+    this.collection.matterSprite.destroy();
+    this.collection.matterSprite = null;
+
+    this.camera.fade(500, 0, 0, 0);
+    this.camera.shake(250, 0.01);
+
+    // Reset Scene
+    changeScene(this.currentScene, 'GameScene');
+  }
+
   private createCompoundBody() {
     const width = this.collection.matterSprite.width;
     const height = this.collection.matterSprite.height;
     let bodies: any = this.currentScene.matter.bodies;
 
     this.collection.body = bodies.rectangle(0, 0, width * 0.75, height, {
-      chamfer: { radius: 10 }
+      chamfer: { radius: 10 },
+      label: 'player'
     });
     this.collection.sensors.bottom = bodies.rectangle(0, height * 0.5, width * 0.5, 5, {
       isSensor: true
@@ -117,26 +126,6 @@ export default class Player {
       }),
       frameRate: 10,
       repeat: -1
-    });
-  }
-
-  private destroyCompoundBody() {
-    // Player death
-    this.collection.matterSprite.destroy();
-    this.collection.matterSprite = null;
-
-    this.camera.fade(500, 0, 0, 0);
-    this.camera.shake(250, 0.01);
-
-    // Reset Scene
-    this.currentScene.time.addEvent({
-      delay: 500,
-      callback: () => {
-        this.camera.resetFX();
-        this.currentScene.scene.stop();
-        this.currentScene.scene.start('GameScene');
-      },
-      callbackScope: this
     });
   }
 
