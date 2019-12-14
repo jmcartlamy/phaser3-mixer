@@ -77,9 +77,11 @@ export default class GameScene extends Phaser.Scene {
     });
 
     // Create full screen button
+    // TODO move to settings
     const button = this.add
       .image(GAME_SCREEN_WIDTH - 16, 16, 'fullscreen', 0)
       .setOrigin(1, 0)
+      .setScrollFactor(0)
       .setInteractive();
     button.on('pointerup', toggleFullscreen(this, button), this);
   }
