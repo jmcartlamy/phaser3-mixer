@@ -1,5 +1,7 @@
 import 'phaser';
 
+import LoadScene from './scenes/LoadScene';
+import MenuScene from './scenes/MenuScene';
 import GameScene from './scenes/GameScene';
 import mixer from './api/mixer';
 
@@ -22,7 +24,7 @@ const config = {
       enableSleep: true
     }
   },
-  scene: [GameScene]
+  scene: [LoadScene, MenuScene, GameScene]
 };
 
 class Game extends Phaser.Game {

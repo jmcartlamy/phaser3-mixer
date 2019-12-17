@@ -3,6 +3,21 @@ import { IPlayer } from './types';
 export const GAME_SCREEN_WIDTH = 1280;
 export const GAME_SCREEN_HEIGHT = 720;
 
+export enum GameScenes {
+  Load = 'Load',
+  Menu = 'Menu',
+  Game = 'Game'
+}
+
+export enum MixplayGroups {
+  Default = 'default'
+}
+
+export enum MixplayScenes {
+  Menu = 'menu',
+  Game = 'game'
+}
+
 export const PLAYER_COLLECTION: IPlayer = {
   matterSprite: null,
   body: null,

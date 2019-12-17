@@ -7,27 +7,20 @@ import tileMaps from '../assets/tilemaps/kenny_platformer_64x64.png';
 import TileMap from '../objects/TileMap';
 import Player from '../objects/Player';
 
-import mixer from '../api/mixer';
-import interactive from '../api/interactive';
-
 import addBallsToActivePointer from './helpers/addBallsToActivePointer';
 import handleBallsCollision from './helpers/handleBallsCollision';
 import toggleFullscreen from './helpers/toggleFullscreen';
-import { GAME_SCREEN_WIDTH } from '../constants';
+import { GAME_SCREEN_WIDTH, GameScenes } from '../constants';
 import handlePlayerCollision from './helpers/handlePlayerCollision';
+import interactive from '../api/interactive';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
 
   constructor() {
     super({
-      key: 'GameScene'
+      key: GameScenes.Game
     });
-
-    // Get token from current mixer instance
-    const token = mixer.getCurrentToken();
-    // Create an interactive game session (mixplay)
-    interactive.setup(this, token);
   }
 
   public preload() {
@@ -46,6 +39,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   public create() {
+    // Update interactive scene (mixplay)
+    interactive.onGame(this);
+
     // Create map following json loaded
     const tilemap = new TileMap(this, 'map');
 
@@ -77,7 +73,7 @@ export default class GameScene extends Phaser.Scene {
     });
 
     // Create full screen button
-    // TODO move to settings
+    // TODO move to settings & FIXME passing data like isFullScreen
     const button = this.add
       .image(GAME_SCREEN_WIDTH - 16, 16, 'fullscreen', 0)
       .setOrigin(1, 0)

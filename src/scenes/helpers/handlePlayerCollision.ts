@@ -1,5 +1,6 @@
 import GameScene from '../GameScene';
-import changeScene from './changeScene';
+import changeSceneWithDelay from './changeSceneWithDelay';
+import { GameScenes } from '../../constants';
 
 export default function(scene: GameScene) {
   return function(event: Phaser.Physics.Matter.Events.CollisionActiveEvent) {
@@ -18,7 +19,7 @@ export default function(scene: GameScene) {
 
       if (bodyA.parent.label === 'exitTile' && bodyB.label === 'player') {
         scene.cameras.main.zoomTo(2);
-        changeScene(scene, 'GameScene', 1000);
+        changeSceneWithDelay(scene, GameScenes.Menu, 1000);
       }
 
       if (bodyA === bottom || bodyB === bottom) {
