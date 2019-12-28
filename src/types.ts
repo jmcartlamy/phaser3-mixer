@@ -1,3 +1,11 @@
+import Mixer from './api/Mixer';
+import Interactive from './api/Interactive';
+
+export interface PhaserGame extends Phaser.Game {
+  mixer: Mixer;
+  interactive: Interactive;
+}
+
 type KeysDirection = 'left' | 'right' | 'bottom';
 
 export interface IPlayer {

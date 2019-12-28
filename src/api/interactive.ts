@@ -12,7 +12,7 @@ class Interactive {
     this.debugMode = false;
   }
 
-  public setup(token: string, currentScene: Phaser.Scene): void {
+  public setup(token: string, phaserScene: Phaser.Scene): void {
     this.session.open({
       authToken: token,
       versionId: +process.env.API_VERSION_ID
@@ -26,8 +26,16 @@ class Interactive {
 
       await this.session.ready(true);
 
-      currentScene.scene.start(GameScenes.Menu);
+      phaserScene.scene.start(GameScenes.Menu);
     });
+  }
+
+  public resume(): void {
+    this.updateSceneOnGroup(MixplayGroups.Default, MixplayScenes.Game);
+  }
+
+  public pause(): void {
+    this.updateSceneOnGroup(MixplayGroups.Default, MixplayScenes.Pause);
   }
 
   public onMenu(): void {
@@ -59,6 +67,7 @@ class Interactive {
 
   private onMouseDown(scene: Phaser.Scene): void {
     const control = this.session.state.getControl('Drop balls');
+    control.removeAllListeners();
 
     control.on('mousedown', (inputEvent: IInputEvent<IScreenInput>) => {
       const { x, y } = translateCoordinatesToScreen(inputEvent.input.x, inputEvent.input.y);
@@ -66,7 +75,7 @@ class Interactive {
     });
   }
 
-  private updateSceneOnGroup(groupID: string, sceneID: string) {
+  private updateSceneOnGroup(groupID: string, sceneID: string): void {
     const defaultGroup = this.session.state.getGroup(groupID);
     defaultGroup.sceneID = sceneID;
 
@@ -76,4 +85,4 @@ class Interactive {
   }
 }
 
-export default new Interactive();
+export default Interactive;

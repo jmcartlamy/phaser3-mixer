@@ -41,4 +41,4 @@ class Mixer {
   }
 }
 
-export default new Mixer();
+export default Mixer;

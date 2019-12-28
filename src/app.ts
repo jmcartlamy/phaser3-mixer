@@ -1,9 +1,10 @@
 import 'phaser';
+import Mixer from './api/Mixer';
 
 import LoadScene from './scenes/LoadScene';
 import MenuScene from './scenes/MenuScene';
+import PauseScene from './scenes/PauseScene';
 import GameScene from './scenes/GameScene';
-import mixer from './api/mixer';
 
 import { GAME_SCREEN_HEIGHT, GAME_SCREEN_WIDTH } from './constants';
 
@@ -24,20 +25,24 @@ const config = {
       enableSleep: true
     }
   },
-  scene: [LoadScene, MenuScene, GameScene]
+  scene: [LoadScene, MenuScene, GameScene, PauseScene]
 };
 
 class Game extends Phaser.Game {
+  protected mixer: any;
+
   constructor(config: Phaser.Types.Core.GameConfig) {
     super(config);
+
+    /**
+     * Create an instance of `Mixer` and use Oauth2 Code Authorization
+     * to create a new mixer token or to retrieve an existing valid mixer token
+     */
+    this.mixer = new Mixer();
   }
 }
 
 window.addEventListener('load', async () => {
-  // Create an instance of `Mixer` and use Oauth2 Code Authorization
-  // to create a new mixer token or to retrieve an existing valid mixer token
-  await mixer.getToken();
-
-  // Launch the game
-  let game = new Game(config);
+  /* Launch the Phaser.Game instance */
+  new Game(config);
 });

@@ -1,8 +1,8 @@
 import { IPlayer } from '../types';
 import SmoothedHorizontalControl from './helpers/SmoothedHorizontalControl';
 import smoothMoveCameraTowards from './helpers/smoothMoveCameraTowards';
-import { GameScenes, PLAYER_COLLECTION } from '../constants';
-import changeSceneWithDelay from '../scenes/helpers/changeSceneWithDelay';
+import { PLAYER_COLLECTION } from '../constants';
+import restartSceneWithDelay from '../scenes/helpers/restartSceneWithDelay';
 
 export default class Player {
   private readonly currentScene: Phaser.Scene;
@@ -60,7 +60,7 @@ export default class Player {
     this.camera.shake(250, 0.01);
 
     // Reset Scene
-    changeSceneWithDelay(this.currentScene, GameScenes.Game);
+    restartSceneWithDelay(this.currentScene);
   }
 
   private createCompoundBody() {

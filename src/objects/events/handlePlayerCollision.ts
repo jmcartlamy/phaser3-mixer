@@ -1,5 +1,5 @@
-import GameScene from '../GameScene';
-import changeSceneWithDelay from './changeSceneWithDelay';
+import GameScene from '../../scenes/GameScene';
+import changeSceneWithDelay from '../../scenes/helpers/changeSceneWithDelay';
 import { GameScenes } from '../../constants';
 
 export default function(scene: GameScene) {

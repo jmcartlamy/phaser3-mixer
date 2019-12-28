@@ -1,5 +1,5 @@
 import balls from '../assets/sprites/balls.png';
-import fullscreen from '../assets/sprites/fullscreen.png';
+import settings from '../assets/sprites/settings.png';
 import player from '../assets/sprites/player.png';
 import map from '../assets/tilemaps/tileset-collision-shapes.json';
 import tileMaps from '../assets/tilemaps/kenny_platformer_64x64.png';
@@ -7,15 +7,15 @@ import tileMaps from '../assets/tilemaps/kenny_platformer_64x64.png';
 import TileMap from '../objects/TileMap';
 import Player from '../objects/Player';
 
-import addBallsToActivePointer from './helpers/addBallsToActivePointer';
-import handleBallsCollision from './helpers/handleBallsCollision';
-import toggleFullscreen from './helpers/toggleFullscreen';
+import addBallsToActivePointer from '../objects/events/addBallsToActivePointer';
+import handleBallsCollision from '../objects/events/handleBallsCollision';
 import { GAME_SCREEN_WIDTH, GameScenes } from '../constants';
-import handlePlayerCollision from './helpers/handlePlayerCollision';
-import interactive from '../api/interactive';
+import handlePlayerCollision from '../objects/events/handlePlayerCollision';
+import { PhaserGame } from '../types';
 
 export default class GameScene extends Phaser.Scene {
   public player: Player;
+  public game: PhaserGame;
 
   constructor() {
     super({
@@ -29,9 +29,9 @@ export default class GameScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 42
     });
-    this.load.spritesheet('fullscreen', fullscreen, {
-      frameWidth: 64,
-      frameHeight: 64
+    this.load.spritesheet('settings', settings, {
+      frameWidth: 48,
+      frameHeight: 48
     });
     // @ts-ignore
     this.load.tilemapTiledJSON('map', map);
@@ -40,7 +40,7 @@ export default class GameScene extends Phaser.Scene {
 
   public create() {
     // Update interactive scene (mixplay)
-    interactive.onGame(this);
+    this.game.interactive?.onGame(this);
 
     // Create map following json loaded
     const tilemap = new TileMap(this, 'map');
@@ -72,14 +72,21 @@ export default class GameScene extends Phaser.Scene {
       this.player.collection.blocked.bottom = this.player.collection.numTouching.bottom > 0;
     });
 
-    // Create full screen button
-    // TODO move to settings & FIXME passing data like isFullScreen
+    // Create settings button
     const button = this.add
-      .image(GAME_SCREEN_WIDTH - 16, 16, 'fullscreen', 0)
+      .image(GAME_SCREEN_WIDTH - 16, 16, 'settings', 0)
       .setOrigin(1, 0)
       .setScrollFactor(0)
       .setInteractive();
-    button.on('pointerup', toggleFullscreen(this, button), this);
+    button.on(
+      'pointerup',
+      function() {
+        this.scene.launch(GameScenes.Pause);
+        this.scene.pause(GameScenes.Game);
+        this.game.interactive?.pause();
+      },
+      this
+    );
   }
 
   public update(time: number, delta: number) {

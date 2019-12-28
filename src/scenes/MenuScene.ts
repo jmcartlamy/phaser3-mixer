@@ -1,10 +1,11 @@
-import fullscreen from '../assets/sprites/fullscreen.png';
+import settings from '../assets/sprites/settings.png';
 
-import toggleFullscreen from './helpers/toggleFullscreen';
-import { GAME_SCREEN_WIDTH, GameScenes } from '../constants';
-import interactive from '../api/interactive';
+import { GameScenes } from '../constants';
+import { PhaserGame } from '../types';
 
 export default class MenuScene extends Phaser.Scene {
+  public game: PhaserGame;
+
   constructor() {
     super({
       key: GameScenes.Menu
@@ -14,28 +15,18 @@ export default class MenuScene extends Phaser.Scene {
   public preload() {
     this.add.text(10, 10, 'Press 1 to launch', { font: '16px Courier', fill: '#00ff00' });
 
-    this.load.spritesheet('fullscreen', fullscreen, {
-      frameWidth: 64,
-      frameHeight: 64
+    this.load.spritesheet('settings', settings, {
+      frameWidth: 48,
+      frameHeight: 48
     });
   }
 
   public create() {
     // Update interactive scene (mixplay)
-    interactive.onMenu();
-
-    // Create full screen button
-    // TODO move to settings & FIXME passing data like isFullScreen
-    const button = this.add
-      .image(GAME_SCREEN_WIDTH - 16, 16, 'fullscreen', 0)
-      .setOrigin(1, 0)
-      .setScrollFactor(0)
-      .setInteractive();
-
-    button.on('pointerup', toggleFullscreen(this, button), this);
+    this.game.interactive?.onMenu();
 
     // On press to key '1', we start the next scene
-    this.input.keyboard.once('keyup_ONE', () => {
+    this.input.keyboard.on('keyup_ONE', () => {
       this.scene.start(GameScenes.Game);
     });
   }

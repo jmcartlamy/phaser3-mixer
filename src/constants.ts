@@ -6,6 +6,7 @@ export const GAME_SCREEN_HEIGHT = 720;
 export enum GameScenes {
   Load = 'Load',
   Menu = 'Menu',
+  Pause = 'Pause',
   Game = 'Game'
 }
 
@@ -15,7 +16,8 @@ export enum MixplayGroups {
 
 export enum MixplayScenes {
   Menu = 'menu',
-  Game = 'game'
+  Game = 'game',
+  Pause = 'pause'
 }
 
 export const PLAYER_COLLECTION: IPlayer = {
