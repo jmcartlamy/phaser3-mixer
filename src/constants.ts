@@ -1,7 +1,11 @@
-import { IPlayer } from './types';
+import { IGameConfig, IPlayer } from './types';
 
 export const GAME_SCREEN_WIDTH = 1280;
 export const GAME_SCREEN_HEIGHT = 720;
+
+export const GAME_CONFIG: IGameConfig = {
+  isInteractive: false
+};
 
 export enum GameScenes {
   Load = 'Load',

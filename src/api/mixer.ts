@@ -22,7 +22,14 @@ class Mixer {
 
   public async getToken(): Promise<string> {
     let token = null;
-    const callback = await this.OAuthClient.callback();
+    let callback;
+
+    try {
+      callback = await this.OAuthClient.callback();
+    } catch (e) {
+      console.log(e);
+      return;
+    }
 
     if (callback) {
       token = callback;

@@ -8,6 +8,10 @@ export interface PhaserGame extends Phaser.Game {
 
 type KeysDirection = 'left' | 'right' | 'bottom';
 
+export interface IGameConfig {
+  isInteractive: boolean;
+}
+
 export interface IPlayer {
   matterSprite: Phaser.Physics.Matter.Sprite | null;
   body: any;

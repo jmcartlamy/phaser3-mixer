@@ -12,7 +12,7 @@ class Interactive {
     this.debugMode = false;
   }
 
-  public setup(token: string, phaserScene: Phaser.Scene): void {
+  public setup(token: string, callback: () => void): void {
     this.session.open({
       authToken: token,
       versionId: +process.env.API_VERSION_ID
@@ -26,7 +26,7 @@ class Interactive {
 
       await this.session.ready(true);
 
-      phaserScene.scene.start(GameScenes.Menu);
+      callback();
     });
   }
 
