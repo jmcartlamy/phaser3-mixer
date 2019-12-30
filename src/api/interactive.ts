@@ -70,7 +70,7 @@ class Interactive {
     control.removeAllListeners();
 
     control.on('mousedown', (inputEvent: IInputEvent<IScreenInput>) => {
-      const { x, y } = translateCoordinatesToScreen(inputEvent.input.x, inputEvent.input.y);
+      const { x, y } = translateCoordinatesToScreen(scene, inputEvent.input.x, inputEvent.input.y);
       addBalls(scene, x, y);
     });
   }
