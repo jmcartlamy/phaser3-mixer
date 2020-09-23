@@ -1,3 +1,5 @@
+# ⚠ Deprecated ⚠
+
 # Phaser3 Mixplay Game
 
 A browser game connected on Mixer Api and interactive service, using [Phaser3](https://www.phaser.io/phaser3) and [Typescript](https://www.typescriptlang.org/).
