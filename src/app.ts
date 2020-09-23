@@ -1,5 +1,5 @@
 import 'phaser';
-import Mixer from './api/Mixer';
+import Mixer from './api/mixer';
 
 import LoadScene from './scenes/LoadScene';
 import MenuScene from './scenes/MenuScene';

@@ -1,5 +1,5 @@
-import Mixer from './api/Mixer';
-import Interactive from './api/Interactive';
+import Mixer from './api/mixer';
+import Interactive from './api/interactive';
 
 export interface PhaserGame extends Phaser.Game {
   mixer: Mixer;

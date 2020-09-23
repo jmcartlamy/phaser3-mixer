@@ -1,4 +1,4 @@
-import Interactive from '../api/Interactive';
+import Interactive from '../api/interactive';
 import { GAME_CONFIG, GameScenes } from '../constants';
 import { PhaserGame } from '../types';
 
